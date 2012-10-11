@@ -11,7 +11,7 @@
 
 	var
 	
-	getCharTime = function () {
+	getCharTime = function (char) {
 		return ((Math.random() * 10000) % 30) + 50;
 	},
 	
@@ -62,7 +62,7 @@
 			txtBox.focus();
 			
 			if (tPos < dT.length) {
-				setTimeout(typeChar, char == ' ' ? options.spaceTime() : options.charTime());
+				setTimeout(typeChar, char == ' ' ? options.spaceTime() : options.charTime(char));
 				if ($.isFunction(options.step)) {
 					options.step.call(t, char);
 				}
@@ -97,6 +97,7 @@
 			text: null, // string
 			step: null, // function (char)
 			complete: null, // function ()
+			blockUserInput: false,
 			charTime: getCharTime, // function ()
 			spaceTime: getSpaceTime // function ()
 		}	
