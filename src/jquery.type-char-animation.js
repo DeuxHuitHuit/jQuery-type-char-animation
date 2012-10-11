@@ -8,21 +8,36 @@
 (function ($, undefined) {
 
 	"use strict";
-	
+
 	var
 	
-	_typeCharEmulator = function(options) {
-		// ensure options
-		options = $.extend({
-						initialText : '',
-						text : '',
-						callback: null
-					}, options);
-		
-		startTypeChar(this,options);
+	getCharTime = function () {
+		return ((Math.random() * 10000) % 30) + 50;
 	},
 	
-	startTypeChar = function (t,options) {//text, txtBox, callback, initialText) {
+	getSpaceTime = function () {
+		return 150;
+	},
+	
+	typeCharAnimation = function(options) {
+		var 
+		
+		t = $(this),
+		
+		// ensure options
+		o = $.extend({}, $.typeCharAnimation.defaults, options);
+		
+		if (t.length != 1) {
+			if (!!window.console) {
+				console.err('[type-char] can only be called on single elements');
+			}
+		} else {
+			// start animation
+			startTypeChar(t, o);
+		}
+	},
+	
+	startTypeChar = function (t, options) {
 		
 		var 
 		
@@ -31,63 +46,63 @@
 		dT = options.text.split(''),
 		
 		tPos = 0,
+		
+		valueFx = txtBox[options.valFx],
 			
 		typeChar = function () {
-			txtBox.val( txtBox.val() + dT[tPos]);
+			var char = dT[tPos];
 			
+			// add a new char
+			valueFx.call(txtBox, valueFx.call(txtBox) + char);
+			
+			// increment pointer
 			tPos++;
 			
+			// focus the element
+			txtBox.focus();
+			
 			if (tPos < dT.length) {
-				setTimeout(typeChar, dT[tPos] == ' ' ? 150 : ((Math.random() * 10000) % 30) + 50 );
-			} else {
-				txtBox.focus();
+				setTimeout(typeChar, char == ' ' ? options.spaceTime() : options.charTime());
+				if ($.isFunction(options.step)) {
+					options.step.call(t, char);
+				}
 				
-				if (options.callback != null && $.isFunction(options.callback)) {
-					options.callback.call(this);
+			} else {
+				if ($.isFunction(options.complete)) {
+					options.complete.call(t);
 				}
 			}
-			txtBox.scrollTo('max');
+			
+			//txtBox.scrollTo('max');
 		};
 		
 		// set initial text
-		txtBox.val(options.initialText);
+		valueFx.call(txtBox, options.initialText);
 		
 		// focus
 		txtBox.focus();
 		
 		// type first char
 		typeChar();
-	},
-	
-	/* UTILITIES *************************************************************/
-
-	/**
-	 * Utility method to facilitate working with jQuery objects
-	 * in all plugins
-	 * 
-	 * @param callback
-	 * @param arguments
-	 * @return jQuery
-	 */
-	each = function (callback, args) {
-		var t = $(this);
-
-		if (!!t && !!t.length && $.isFunction(callback)) {
-			t.each(function eachCallback () {
-				callback.apply(this, args);
-			});
-		}
-
-		return t;
 	};
 	
-	// ACTUAL PLUGINS
+	
+	// ACTUAL PLUGIN
 	$.fn.extend({
-		typeCharEmulator : function() {return each.call(this,_typeCharEmulator,arguments);}
+		typeCharAnimation: typeCharAnimation
 	});
 	
-	$.extend({
-		typeCharEmulator : {}
-	});
+	// defaults
+	$.typeCharAnimation = {
+		defaults: {
+			initialText: null, // string
+			text: null, // string
+			step: null, // function (char)
+			complete: null, // function ()
+			charTime: getCharTime, // function ()
+			spaceTime: getSpaceTime, // function ()
+			valFx: 'val' // 'val' | 'text'
+		}	
+	};
 	
 })(jQuery);

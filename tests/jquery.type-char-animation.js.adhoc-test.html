@@ -5,7 +5,26 @@
 	<title>jQuery Type Char Adhoc test</title> 
 	
 	<style type="text/css">
-
+		#main {
+			
+		}
+		
+		#textarea {
+			width: 45%;
+			height: 400px;
+		}
+		
+		#div {
+			width: 45%;
+			height: 400px;
+			float: right;
+			border: 1px solid black;
+			overflow: auto;
+		}
+		
+		#btn-div {
+			float: right;
+		}
 	</style>
 	
 	<script>
@@ -37,7 +56,12 @@
 
 	<div id="main">
 		
+		<textarea id="textarea"></textarea>
 		
+		<div id="div"></div>
+		
+		<button id="btn-textarea">Animate text area</button>
+		<button id="btn-div">Animate div</button>
 	</div>
 
 	<script src="../src/jquery.type-char-animation.js"></script>
@@ -51,8 +75,44 @@
 		
 		win = $(window),
 		
+		textarea = $('#textarea'),
+		div = $('#div'),
+		
+		btnText = $('#btn-textarea'),
+		btnDiv = $('#btn-div'),
+		
+		string = 'Hummmm... Bacon!',
+		
+		btnTextAnim = function (e) {
+			textarea.typeCharAnimation({
+				initialText: 'Textarea ',
+				text: string,
+				complete: function () {
+					console.log('complete');
+				},
+				step: function (char) {
+					console.log('step ' + char);
+				}
+			});
+		},
+		
+		btnDivAnim = function (e) {
+			div.typeCharAnimation({
+				initialText: 'Div ',
+				text: string,
+				valFx: 'text',
+				complete: function () {
+					console.log('complete');
+				},
+				step: function (char) {
+					console.log('step ' + char);
+				}
+			});
+		},
+		
 		init = function () {
-			
+			btnText.click(btnTextAnim);
+			btnDiv.click(btnDivAnim);
 		};
 		
 		$(init);
