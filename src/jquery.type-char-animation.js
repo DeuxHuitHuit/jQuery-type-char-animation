@@ -47,7 +47,7 @@
 		
 		tPos = 0,
 		
-		valueFx = txtBox[options.valFx],
+		valueFx = txtBox[txtBox.is('input, textarea') ? 'val' : 'text'],
 			
 		typeChar = function () {
 			var char = dT[tPos];
@@ -72,8 +72,6 @@
 					options.complete.call(t);
 				}
 			}
-			
-			//txtBox.scrollTo('max');
 		};
 		
 		// set initial text
@@ -100,8 +98,7 @@
 			step: null, // function (char)
 			complete: null, // function ()
 			charTime: getCharTime, // function ()
-			spaceTime: getSpaceTime, // function ()
-			valFx: 'val' // 'val' | 'text'
+			spaceTime: getSpaceTime // function ()
 		}	
 	};
 	
