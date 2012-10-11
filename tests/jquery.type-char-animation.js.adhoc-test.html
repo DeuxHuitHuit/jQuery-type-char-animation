@@ -1,0 +1,63 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+	<meta charset="utf-8" /> 
+	<title>jQuery Type Char Adhoc test</title> 
+	
+	<style type="text/css">
+
+	</style>
+	
+	<script>
+		(function (w, doc,co) {
+			// http://stackoverflow.com/questions/901115/get-query-string-values-in-javascript
+			var u = {},
+				e,
+				a = /\+/g,  // Regex for replacing addition symbol with a space
+				r = /([^&=]+)=?([^&]*)/g,
+				d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+				q = w.location.search.substring(1),
+				v = '1.8';
+
+			while (e = r.exec(q)) {
+				u[d(e[1])] = d(e[2]);
+			}
+			
+			if (!!u.jquery) {
+				v = u.jquery;
+			}	
+
+			doc.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/'+v+'/jquery.min.js">' + "<" + '/' + 'script>');
+			co.log('\nLoading jQuery v' + v + '\n');
+		})(window, document, console);
+	</script>
+</head>
+<body>
+	<h1>jQuery Type Char</h1>
+
+	<div id="main">
+		
+		
+	</div>
+
+	<script src="../src/jquery.type-char-animation.js"></script>
+	
+	<script>
+	(function ($) {
+		
+		"use strict";
+		
+		var 
+		
+		win = $(window),
+		
+		init = function () {
+			
+		};
+		
+		$(init);
+		
+	})(jQuery);
+	</script>
+</body>
+</html>
