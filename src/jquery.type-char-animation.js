@@ -11,11 +11,11 @@
 
 	var
 	
-	getCharTime = function (char) {
+	getCharTime = function (char, tPos) {
 		return ((Math.random() * 10000) % 30) + 50;
 	},
 	
-	getSpaceTime = function () {
+	getSpaceTime = function (tPos) {
 		return 150;
 	},
 	
@@ -62,9 +62,9 @@
 			txtBox.focus();
 			
 			if (tPos < dT.length) {
-				setTimeout(typeChar, char == ' ' ? options.spaceTime() : options.charTime(char));
+				setTimeout(typeChar, char == ' ' ? options.spaceTime(tPos) : options.charTime(char, tPos));
 				if ($.isFunction(options.step)) {
-					options.step.call(t, char);
+					options.step.call(t, char, tPos);
 				}
 				
 			} else {
@@ -95,11 +95,11 @@
 		defaults: {
 			initialText: null, // string
 			text: null, // string
-			step: null, // function (char)
+			step: null, // function (char, tPos)
 			complete: null, // function ()
 			blockUserInput: false,
-			charTime: getCharTime, // function ()
-			spaceTime: getSpaceTime // function ()
+			charTime: getCharTime, // function (char, tPos)
+			spaceTime: getSpaceTime // function (tPos)
 		}	
 	};
 	
