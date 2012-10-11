@@ -75,7 +75,9 @@
 		};
 		
 		// set initial text
-		valueFx.call(txtBox, options.initialText);
+		if (!!options.initialText) {
+			valueFx.call(txtBox, options.initialText);
+		}
 		
 		// focus
 		txtBox.focus();
