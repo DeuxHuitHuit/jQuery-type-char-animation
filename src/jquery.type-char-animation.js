@@ -29,7 +29,7 @@
 		
 		if (t.length != 1) {
 			if (!!window.console) {
-				console.err('[type-char] can only be called on single elements');
+				console.error('[type-char] can only be called on single elements');
 			}
 		} else {
 			// start animation
