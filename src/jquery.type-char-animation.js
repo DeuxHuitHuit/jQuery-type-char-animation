@@ -45,7 +45,7 @@
 			return value + dT[tPos];
 		},
 		isOver: function (dT, tPos) {
-			return tPos < dT.length;
+			return tPos === dT.length;
 		}
 	};
 	
@@ -55,10 +55,10 @@
 		},
 		increment: -1,
 		char: function (dT, tPos) {
-			
+			return dT[tPos];
 		},
-		newValue: function (dT, tPos) {
-			
+		newValue: function (dT, tPos, value) {
+			return value.substring(0, value.length - 1);
 		},
 		isOver: function (dT, tPos) {
 			return tPos === 0;
@@ -75,14 +75,24 @@
 		var tPos = strategy.initialPosition(dT);
 		
 		var valueFx = txtBox[txtBox.is('input, textarea') ? 'val' : 'text'];
-			
+		
+		var initialText = options.initialText || '';
+		
+		if (!!options.reverse) {
+			initialText += options.text;
+		}
+		
+		var currentValue = initialText;
+		
 		var typeChar = function () {
+			// get current char
 			var char = strategy.char(dT, tPos);
-			var currentValue = valueFx.call(txtBox);
-			var newValue = strategy.newValue(dT, tPos, currentValue);
+			
+			// set new current value
+			currentValue = strategy.newValue(dT, tPos, currentValue);
 			
 			// set new value
-			valueFx.call(txtBox, newValue);
+			valueFx.call(txtBox, currentValue);
 			
 			// increment pointer
 			tPos += strategy.increment;
@@ -90,7 +100,7 @@
 			// focus the element
 			txtBox.focus();
 			
-			if (strategy.isOver(dT, tPos)) {
+			if (!strategy.isOver(dT, tPos)) {
 				setTimeout(typeChar,
 					char == ' ' ?
 					options.spaceTime(tPos) :
@@ -108,8 +118,8 @@
 		};
 		
 		// set initial text
-		if (!!options.initialText) {
-			valueFx.call(txtBox, options.initialText);
+		if (!!initialText) {
+			valueFx.call(txtBox, initialText);
 		}
 		
 		// focus
