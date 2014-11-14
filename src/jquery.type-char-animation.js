@@ -1,7 +1,7 @@
 /*
- *  Sizing v1.0 - jQuery Type Char Animation
+ *  Sizing v2.0 - jQuery Type Char Animation
  *
- *  Copyright (c) 2012 Deux Huit Huit (http://www.deuxhuithuit.com/)
+ *  Copyright (c) 2012, 2014 Deux Huit Huit (http://www.deuxhuithuit.com/)
  *  Licensed under the MIT (https://github.com/DeuxHuitHuit/jQuery-type-char-animation/blob/master/LICENSE.txt)
  */
 
