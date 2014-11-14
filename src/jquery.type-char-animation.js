@@ -7,19 +7,17 @@
 
 (function ($, undefined) {
 
-	"use strict";
+	'use strict';
 
-	var
-	
-	getCharTime = function (char, tPos) {
+	var getCharTime = function (char, tPos) {
 		return ((Math.random() * 10000) % 30) + 50;
-	},
+	};
 	
-	getSpaceTime = function (tPos) {
+	var getSpaceTime = function (tPos) {
 		return 150;
-	},
+	};
 	
-	typeCharAnimation = function(options) {
+	var typeCharAnimation = function(options) {
 		var 
 		
 		t = $(this),
@@ -35,9 +33,9 @@
 			// start animation
 			startTypeChar(t, o);
 		}
-	},
+	};
 	
-	startTypeChar = function (t, options) {
+	var startTypeChar = function (t, options) {
 		
 		var 
 		
