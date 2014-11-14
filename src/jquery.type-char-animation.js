@@ -18,12 +18,10 @@
 	};
 	
 	var typeCharAnimation = function(options) {
-		var 
-		
-		t = $(this),
+		var t = $(this);
 		
 		// ensure options
-		o = $.extend({}, $.typeCharAnimation.defaults, options);
+		var o = $.extend({}, $.typeCharAnimation.defaults, options);
 		
 		if (t.length != 1) {
 			if (!!window.console) {
@@ -36,18 +34,15 @@
 	};
 	
 	var startTypeChar = function (t, options) {
+		var txtBox = $(t);
 		
-		var 
+		var dT = options.text.split('');
 		
-		txtBox = $(t),
+		var tPos = 0;
 		
-		dT = options.text.split(''),
-		
-		tPos = 0,
-		
-		valueFx = txtBox[txtBox.is('input, textarea') ? 'val' : 'text'],
+		var valueFx = txtBox[txtBox.is('input, textarea') ? 'val' : 'text'];
 			
-		typeChar = function () {
+		var typeChar = function () {
 			var char = dT[tPos];
 			
 			// add a new char
