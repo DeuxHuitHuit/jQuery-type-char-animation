@@ -8,6 +8,8 @@
 (function ($, undefined) {
 
 	'use strict';
+	
+	var KEYDOWN = 'keydown.typeCharAnimation';
 
 	var getCharTime = function (char, tPos) {
 		return ((Math.random() * 10000) % 30) + 50;
@@ -31,6 +33,11 @@
 			// start animation
 			startTypeChar(t, o);
 		}
+	};
+	
+	var keydown = function (e) {
+		e.preventDefault();
+		return false;
 	};
 	
 	var normalStrategy = {
@@ -111,6 +118,8 @@
 				}
 				
 			} else {
+				txtBox.off(KEYDOWN, keydown);
+				
 				if ($.isFunction(options.complete)) {
 					options.complete.call(t);
 				}
@@ -120,6 +129,10 @@
 		// set initial text
 		if (!!initialText) {
 			valueFx.call(txtBox, initialText);
+		}
+		
+		if (!!options.blockUserInput) {
+			txtBox.on(KEYDOWN, keydown);
 		}
 		
 		// focus
