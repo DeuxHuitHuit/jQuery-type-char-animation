@@ -72,6 +72,18 @@
 		}
 	};
 	
+	var processMatrix = function (value, options) {
+		if (!!options.matrixEffect) {
+			var frozen = value.substring(0, Math.max(0, value.length - options.matrixEffect));
+			var length = Math.min(options.matrixEffect, value.length);
+			for (var x = 0; x < length; x++) {
+				frozen += options.matrixValues[~~(Math.random() * 10000) % options.matrixValues.length];
+			}
+			return frozen;
+		}
+		return value;
+	};
+	
 	var startTypeChar = function (t, options) {
 		var txtBox = $(t);
 		
@@ -95,11 +107,14 @@
 			// get current char
 			var char = strategy.char(dT, tPos);
 			
-			// set new current value
+			// get new current value
 			currentValue = strategy.newValue(dT, tPos, currentValue);
 			
+			// matrix!
+			var stepValue = processMatrix(currentValue, options);
+			
 			// set new value
-			valueFx.call(txtBox, currentValue);
+			valueFx.call(txtBox, stepValue);
 			
 			// increment pointer
 			tPos += strategy.increment;
@@ -107,7 +122,9 @@
 			// focus the element
 			txtBox.focus();
 			
+			// If the animation is not complete
 			if (!strategy.isOver(dT, tPos)) {
+				// loop!
 				setTimeout(typeChar,
 					char == ' ' ?
 					options.spaceTime(tPos) :
@@ -118,6 +135,7 @@
 				}
 				
 			} else {
+				// clean up
 				txtBox.off(KEYDOWN, keydown);
 				
 				if ($.isFunction(options.complete)) {
@@ -131,6 +149,7 @@
 			valueFx.call(txtBox, initialText);
 		}
 		
+		// block user input
 		if (!!options.blockUserInput) {
 			txtBox.on(KEYDOWN, keydown);
 		}
@@ -157,6 +176,8 @@
 			complete: null, // function ()
 			blockUserInput: false,
 			reverse: false,
+			matrixEffect: 0,
+			matrixValues: 'abcdefghijklmnopqrstuvwxyz '.split(''),
 			charTime: getCharTime, // function (char, tPos)
 			spaceTime: getSpaceTime // function (tPos)
 		}	

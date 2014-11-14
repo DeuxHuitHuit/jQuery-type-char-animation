@@ -77,6 +77,10 @@
 				<input id="chk-block" type="checkbox" />
 				Block user input
 			</label>
+			<label>
+				<input id="chk-matrix" type="checkbox" />
+				Matrix effect
+			</label>
 		</fieldset>
 	</div>
 
@@ -97,6 +101,7 @@
 		
 		var chkReverse = $('#chk-reverse');
 		var chkBlock = $('#chk-block');
+		var chkMatrix = $('#chk-matrix');
 		
 		var string = 'Bacon ipsum dolor sit amet chuck turkey salami, brisket prosciutto ham cow. Shank sausage boudin frankfurter pastrami beef shoulder. Pork loin pork chop pastrami jerky, drumstick ham hock turkey brisket biltong boudin t-bone ham hamburger bacon. Pork loin beef ribs venison pancetta meatball shank tongue sausage tail leberkas shoulder. Shank jowl sirloin pork chop tenderloin, corned beef beef kielbasa pig pastrami rump beef ribs.';
 		
@@ -110,6 +115,7 @@
 				text: string,
 				reverse: isOn(chkReverse),
 				blockUserInput: isOn(chkBlock),
+				matrixEffect: isOn(chkMatrix) ? 3 : 0,
 				complete: function () {
 					console.log('complete');
 				},
@@ -125,6 +131,7 @@
 				text: string,
 				reverse: isOn(chkReverse),
 				blockUserInput: isOn(chkBlock),
+				matrixEffect: isOn(chkMatrix) ? 3 : 0,
 				complete: function () {
 					console.log('complete');
 				},
