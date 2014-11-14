@@ -25,6 +25,10 @@
 		#btn-div {
 			float: right;
 		}
+		
+		fieldset {
+			margin-top: 1em;
+		}
 	</style>
 	
 	<script>
@@ -62,6 +66,14 @@
 		
 		<button id="btn-textarea">Animate text area</button>
 		<button id="btn-div">Animate div</button>
+		
+		<fieldset>
+			<legend>Options</legend>
+			<label>
+				<input id="chk-reverse" type="checkbox" />
+				Reverse animation
+			</label>
+		</fieldset>
 	</div>
 
 	<script src="../src/jquery.type-char-animation.js"></script>
@@ -69,24 +81,29 @@
 	<script>
 	(function ($) {
 		
-		"use strict";
+		'use strict';
 		
-		var 
+		var win = $(window);
 		
-		win = $(window),
+		var textarea = $('#textarea');
+		var div = $('#div');
 		
-		textarea = $('#textarea'),
-		div = $('#div'),
+		var btnText = $('#btn-textarea');
+		var btnDiv = $('#btn-div');
 		
-		btnText = $('#btn-textarea'),
-		btnDiv = $('#btn-div'),
+		var chkReverse = $('#chk-reverse');
 		
-		string = 'Bacon ipsum dolor sit amet chuck turkey salami, brisket prosciutto ham cow. Shank sausage boudin frankfurter pastrami beef shoulder. Pork loin pork chop pastrami jerky, drumstick ham hock turkey brisket biltong boudin t-bone ham hamburger bacon. Pork loin beef ribs venison pancetta meatball shank tongue sausage tail leberkas shoulder. Shank jowl sirloin pork chop tenderloin, corned beef beef kielbasa pig pastrami rump beef ribs.',
+		var string = 'Bacon ipsum dolor sit amet chuck turkey salami, brisket prosciutto ham cow. Shank sausage boudin frankfurter pastrami beef shoulder. Pork loin pork chop pastrami jerky, drumstick ham hock turkey brisket biltong boudin t-bone ham hamburger bacon. Pork loin beef ribs venison pancetta meatball shank tongue sausage tail leberkas shoulder. Shank jowl sirloin pork chop tenderloin, corned beef beef kielbasa pig pastrami rump beef ribs.';
 		
-		btnTextAnim = function (e) {
+		var isReverse = function () {
+			return !!chkReverse.prop('checked');
+		};
+		
+		var btnTextAnim = function (e) {
 			textarea.typeCharAnimation({
 				initialText: 'Textarea ',
 				text: string,
+				reverse: isReverse(),
 				complete: function () {
 					console.log('complete');
 				},
@@ -94,12 +111,13 @@
 					console.log('step ' + char);
 				}
 			});
-		},
+		};
 		
-		btnDivAnim = function (e) {
+		var btnDivAnim = function (e) {
 			div.typeCharAnimation({
 				initialText: 'Div ',
 				text: string,
+				reverse: isReverse(),
 				complete: function () {
 					console.log('complete');
 				},
@@ -107,9 +125,9 @@
 					console.log('step ' + char);
 				}
 			});
-		},
+		};
 		
-		init = function () {
+		var init = function () {
 			btnText.click(btnTextAnim);
 			btnDiv.click(btnDivAnim);
 		};
