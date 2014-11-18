@@ -170,7 +170,7 @@
 		txtBox.focus();
 		
 		// type first char
-		typeChar();
+		setTimeout(typeChar, options.initialDelay);
 	};
 	
 	
@@ -183,6 +183,7 @@
 	$.typeCharAnimation = {
 		defaults: {
 			initialText: null, // string
+			initialDelay: 0,
 			text: null, // string
 			step: null, // function (char, tPos)
 			complete: null, // function ()
