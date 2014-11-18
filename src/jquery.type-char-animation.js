@@ -102,10 +102,11 @@
 		
 		var tPos = strategy.initialPosition(dT);
 		
-		var valueFx = txtBox[txtBox.is('input, textarea') ? 'val' : 'text'];
-		var setValue = function (value) {
-			valueFx.call(txtBox, value);
-		};
+		var setValue = (function (valueFx) {
+			return function _valueFx(value) {
+				return valueFx.call(txtBox, value);
+			};
+		})(txtBox[txtBox.is('input, textarea') ? 'val' : 'text']);
 		
 		var initialText = options.initialText || '';
 		
@@ -186,7 +187,7 @@
 		
 		// set initial text
 		if (!!initialText) {
-			valueFx.call(txtBox, initialText);
+			setValue(initialText);
 		}
 		
 		// block user input
