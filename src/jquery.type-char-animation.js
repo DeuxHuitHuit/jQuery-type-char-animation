@@ -26,17 +26,14 @@
 	var typeCharAnimation = function(options) {
 		var t = $(this);
 		
-		// ensure options
-		var o = $.extend({}, $.typeCharAnimation.defaults, options);
-		
-		if (t.length != 1) {
-			if (!!window.console) {
-				console.error('[type-char] can only be called on single elements');
-			}
-		} else {
+		return t.each(function () {
+			var t = $(this);
+			// ensure options
+			var o = $.extend({}, $.typeCharAnimation.defaults, options);
+			
 			// start animation
 			startTypeChar(t, o);
-		}
+		});
 	};
 	
 	var keydown = function (e) {
