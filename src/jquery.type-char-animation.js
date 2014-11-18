@@ -115,6 +115,32 @@
 		
 		var currentValue = initialText;
 		
+		var endLoop = function () {
+			if (options.matrixEffect > 0 && !!currentValue) {
+				options.matrixEffect--;
+				// process the matrix with the new effects
+				var v = processMatrix(currentValue, tPos, options);
+				setValue(v);
+				end();
+			} else {
+				// clean up
+				txtBox.off(KEYDOWN, keydown);
+				
+				// set end value
+				setValue(currentValue);
+				
+				// call complete callback
+				if ($.isFunction(options.complete)) {
+					options.complete.call(t);
+				}
+			}
+		};
+		var end = function () {
+			setTimeout(endLoop,
+				options.charTime(currentValue.substring(currentValue.length-1), tPos)
+			);
+		};
+		
 		var typeChar = function () {
 			// get current char
 			var char = strategy.char(dT, tPos);
@@ -152,15 +178,9 @@
 				);
 				
 			} else {
-				// clean up
-				txtBox.off(KEYDOWN, keydown);
 				
-				// set end value
-				setValue(currentValue);
-				
-				if ($.isFunction(options.complete)) {
-					options.complete.call(t);
-				}
+				// end the animation
+				end();
 			}
 		};
 		
