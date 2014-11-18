@@ -75,12 +75,20 @@
 	
 	var processMatrix = function (value, options) {
 		if (!!options.matrixEffect) {
-			var frozen = value.substring(0, Math.max(0, value.length - options.matrixEffect));
-			var length = Math.min(options.matrixEffect, value.length);
-			for (var x = 0; x < length; x++) {
-				frozen += options.matrixValues[~~(Math.random() * 10000) % options.matrixValues.length];
+			value = value.split('');
+			var end = Math.min(options.matrixEffect, value.length);
+			var r, c, x = end, p = value.length - 1;
+			while (x > 0 && p >= 0) {
+				if (!options.isWhiteSpace(value[p])) {
+					r = (~~(Math.random() * 10000)) % options.matrixValues.length;
+					c = options.matrixValues[r];
+					console.log(c);
+					value[p] = c;
+					x--;
+				}
+				p--;
 			}
-			return frozen;
+			value = value.join('');
 		}
 		return value;
 	};
