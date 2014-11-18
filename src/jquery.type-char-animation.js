@@ -20,7 +20,7 @@
 	};
 
 	var isWhiteSpace = function (char, tPos) {
-		return /\s/.test(char);
+		return !char || /\s/.test(char);
 	};
 	
 	var typeCharAnimation = function(options) {
