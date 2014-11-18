@@ -12,7 +12,7 @@
 	var KEYDOWN = 'keydown.typeCharAnimation';
 
 	var getCharTime = function (char, tPos) {
-		return ((Math.random() * 10000) % 30) + 50;
+		return ((~~(Math.random() * 10000)) % 30) + 50;
 	};
 	
 	var getSpaceTime = function (char, tPos) {
