@@ -109,6 +109,14 @@
 			return !!chk.prop('checked');
 		};
 		
+		var step = function (char, tPos) {
+			console.log('step #' + tPos + ' ' + char);
+		};
+		
+		var complete = function () {
+			console.log('complete');
+		};
+		
 		var btnTextAnim = function (e) {
 			textarea.typeCharAnimation({
 				initialText: 'Textarea ',
@@ -116,12 +124,8 @@
 				reverse: isOn(chkReverse),
 				blockUserInput: isOn(chkBlock),
 				matrixEffect: isOn(chkMatrix) ? 3 : 0,
-				complete: function () {
-					console.log('complete');
-				},
-				step: function (char) {
-					console.log('step ' + char);
-				}
+				complete: complete,
+				step: step
 			});
 		};
 		
@@ -132,12 +136,8 @@
 				reverse: isOn(chkReverse),
 				blockUserInput: isOn(chkBlock),
 				matrixEffect: isOn(chkMatrix) ? 3 : 0,
-				complete: function () {
-					console.log('complete');
-				},
-				step: function (char) {
-					console.log('step ' + char);
-				}
+				complete: complete,
+				step: step
 			});
 		};
 		

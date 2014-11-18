@@ -15,8 +15,12 @@
 		return ((Math.random() * 10000) % 30) + 50;
 	};
 	
-	var getSpaceTime = function (tPos) {
+	var getSpaceTime = function (char, tPos) {
 		return 150;
+	};
+
+	var isWhiteSpace = function (char, tPos) {
+		return /\s/.test(char);
 	};
 	
 	var typeCharAnimation = function(options) {
@@ -107,8 +111,11 @@
 			// get current char
 			var char = strategy.char(dT, tPos);
 			
-			// get new current value
+			// cache the new current value
 			currentValue = strategy.newValue(dT, tPos, currentValue);
+			
+			// is this a whitespace ?
+			var whiteSpace = options.isWhiteSpace(char, tPos);
 			
 			// matrix!
 			var stepValue = processMatrix(currentValue, options);
@@ -126,8 +133,8 @@
 			if (!strategy.isOver(dT, tPos)) {
 				// loop!
 				setTimeout(typeChar,
-					char == ' ' ?
-					options.spaceTime(tPos) :
+					whiteSpace ?
+					options.spaceTime(char, tPos) :
 					options.charTime(char, tPos)
 				);
 				if ($.isFunction(options.step)) {
@@ -179,8 +186,9 @@
 			matrixEffect: 0,
 			matrixValues: 'abcdefghijklmnopqrstuvwxyz '.split(''),
 			charTime: getCharTime, // function (char, tPos)
-			spaceTime: getSpaceTime // function (tPos)
-		}	
+			spaceTime: getSpaceTime, // function (char, tPos)
+			isWhiteSpace: isWhiteSpace // function (char, tPos)
+		}
 	};
 	
 })(jQuery);
