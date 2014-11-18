@@ -82,7 +82,6 @@
 				if (!options.isWhiteSpace(value[p])) {
 					r = (~~(Math.random() * 10000)) % options.matrixValues.length;
 					c = options.matrixValues[r];
-					console.log(c);
 					value[p] = c;
 					x--;
 				}
@@ -101,6 +100,7 @@
 		var strategy = !options.reverse ? normalStrategy : reverseStrategy;
 		
 		var tPos = strategy.initialPosition(dT);
+		var pass = 0;
 		
 		var setValue = (function (valueFx) {
 			return function _valueFx(value) {
@@ -146,20 +146,28 @@
 			// get current char
 			var char = strategy.char(dT, tPos);
 			
-			// cache the new current value
-			currentValue = strategy.newValue(dT, tPos, currentValue);
+			var newValue = strategy.newValue(dT, tPos, currentValue);
 			
 			// is this a whitespace ?
 			var whiteSpace = options.isWhiteSpace(char, tPos);
 			
 			// matrix!
-			var stepValue = processMatrix(currentValue, tPos, options);
+			var stepValue = processMatrix(newValue, tPos, options);
 			
 			// set new value
 			setValue(stepValue);
 			
-			// increment pointer
-			tPos += strategy.increment;
+			// increment pass count
+			pass++;
+			
+			// if numerber of passes is reached
+			if (pass >= options.passes) {
+				pass = 0;
+				// increment pointer
+				tPos += strategy.increment;
+				// cache the new current value
+				currentValue = newValue;
+			}
 			
 			// call step
 			if ($.isFunction(options.step)) {
@@ -219,6 +227,7 @@
 			blockUserInput: false,
 			reverse: false,
 			matrixEffect: 0,
+			passes: 1,
 			matrixValues: 'abcdefghijklmnopqrstuvwxyz '.split(''),
 			charTime: getCharTime, // function (char, tPos)
 			spaceTime: getSpaceTime, // function (char, tPos)
