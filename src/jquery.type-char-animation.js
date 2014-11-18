@@ -73,7 +73,7 @@
 		}
 	};
 	
-	var processMatrix = function (value, options) {
+	var processMatrix = function (value, tPos, options) {
 		if (!!options.matrixEffect) {
 			value = value.split('');
 			var end = Math.min(options.matrixEffect, value.length);
@@ -103,6 +103,9 @@
 		var tPos = strategy.initialPosition(dT);
 		
 		var valueFx = txtBox[txtBox.is('input, textarea') ? 'val' : 'text'];
+		var setValue = function (value) {
+			valueFx.call(txtBox, value);
+		};
 		
 		var initialText = options.initialText || '';
 		
@@ -123,13 +126,18 @@
 			var whiteSpace = options.isWhiteSpace(char, tPos);
 			
 			// matrix!
-			var stepValue = processMatrix(currentValue, options);
+			var stepValue = processMatrix(currentValue, tPos, options);
 			
 			// set new value
-			valueFx.call(txtBox, stepValue);
+			setValue(stepValue);
 			
 			// increment pointer
 			tPos += strategy.increment;
+			
+			// call step
+			if ($.isFunction(options.step)) {
+				options.step.call(t, char, tPos);
+			}
 			
 			// focus the element
 			txtBox.focus();
@@ -142,13 +150,13 @@
 					options.spaceTime(char, tPos) :
 					options.charTime(char, tPos)
 				);
-				if ($.isFunction(options.step)) {
-					options.step.call(t, char, tPos);
-				}
 				
 			} else {
 				// clean up
 				txtBox.off(KEYDOWN, keydown);
+				
+				// set end value
+				setValue(currentValue);
 				
 				if ($.isFunction(options.complete)) {
 					options.complete.call(t);
