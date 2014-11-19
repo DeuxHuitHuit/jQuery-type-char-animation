@@ -12,6 +12,7 @@
 		#textarea {
 			width: 45%;
 			height: 400px;
+			font-family: monospace;
 		}
 		
 		#div {
@@ -22,7 +23,7 @@
 			overflow: auto;
 		}
 		
-		#btn-div {
+		#btn-div, #btn-stop-div {
 			float: right;
 		}
 		
@@ -65,7 +66,11 @@
 		<div id="div"></div>
 		
 		<button id="btn-textarea">Animate text area</button>
+		<button id="btn-stop-textarea">Stop</button>
 		<button id="btn-div">Animate div</button>
+		<button id="btn-stop-div">Stop</button>
+		<br />
+		<button id="btn-stop">Stop All</button>
 		
 		<fieldset>
 			<legend>Options</legend>
@@ -117,6 +122,12 @@
 			console.log('complete');
 		};
 		
+		var stop = function (target) {
+			return function _stop(e) {
+				target.typeCharAnimation('stop', {end: true});
+			};
+		};
+		
 		var btnTextAnim = function (e) {
 			textarea.typeCharAnimation({
 				initialText: 'Textarea ',
@@ -145,6 +156,9 @@
 		var init = function () {
 			btnText.click(btnTextAnim);
 			btnDiv.click(btnDivAnim);
+			$('#btn-stop-textarea').click(stop(textarea));
+			$('#btn-stop-div').click(stop(div));
+			$('#btn-stop').click(stop(textarea.add(div)));
 		};
 		
 		$(init);

@@ -23,16 +23,18 @@
 		return !char || /\s/.test(char);
 	};
 	
-	var typeCharAnimation = function(options) {
+	var typeCharAnimation = function (options, args) {
 		var t = $(this);
 		
 		return t.each(function () {
 			var t = $(this);
 			// ensure options
-			var o = $.extend({}, $.typeCharAnimation.defaults, options);
+			var o = $.type(options) === 'string' ?
+						options :
+						$.extend({}, $.typeCharAnimation.defaults, options);
 			
 			// start animation
-			startTypeChar(t, o);
+			startTypeChar(t, o, args);
 		});
 	};
 	
@@ -92,22 +94,42 @@
 		return value;
 	};
 	
-	var startTypeChar = function (t, options) {
+	var startTypeChar = function (t, options, args) {
 		var txtBox = $(t);
-		
-		var dT = options.text.split('');
-		
-		var strategy = !options.reverse ? normalStrategy : reverseStrategy;
-		
-		var tPos = strategy.initialPosition(dT);
-		var pass = 0;
-		
+		var data = txtBox.data();
 		var setValue = (function (valueFx) {
 			return function _valueFx(value) {
 				return valueFx.call(txtBox, value);
 			};
 		})(txtBox[txtBox.is('input, textarea') ? 'val' : 'text']);
 		
+		// clear any existing timeouts
+		if (!!data.typeCharAnimation) {
+			clearTimeout(data.typeCharAnimation._timeout);
+		}
+		
+		// check commands
+		if ($.type(options) === 'string') {
+			var cmd = options;
+			options = data.typeCharAnimation;
+			if (!!options) {
+				if (cmd === 'stop') {
+					if (!!args && args.end) {
+						setValue((options.initialText || '') + options.text);
+					}
+				}
+			}
+			return;
+		}
+		
+		// save options
+		data.typeCharAnimation = options;
+		
+		// initial state
+		var dT = options.text.split('');
+		var strategy = !options.reverse ? normalStrategy : reverseStrategy;
+		var tPos = strategy.initialPosition(dT);
+		var pass = 0;
 		var initialText = options.initialText || '';
 		
 		if (!!options.reverse) {
@@ -137,7 +159,7 @@
 			}
 		};
 		var end = function () {
-			setTimeout(endLoop,
+			data.typeCharAnimation._timeout = setTimeout(endLoop,
 				options.charTime(currentValue.substring(currentValue.length-1), tPos)
 			);
 		};
@@ -180,7 +202,7 @@
 			// If the animation is not complete
 			if (!strategy.isOver(dT, tPos)) {
 				// loop!
-				setTimeout(typeChar,
+				data.typeCharAnimation._timeout = setTimeout(typeChar,
 					whiteSpace ?
 					options.spaceTime(char, tPos) :
 					options.charTime(char, tPos)
@@ -219,6 +241,9 @@
 	// defaults
 	$.typeCharAnimation = {
 		defaults: {
+			// private
+			_timeout: 0,
+			// public
 			initialText: null, // string
 			initialDelay: 0,
 			text: null, // string
