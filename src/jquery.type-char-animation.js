@@ -228,7 +228,7 @@
 			reverse: false,
 			matrixEffect: 0,
 			passes: 1,
-			matrixValues: 'abcdefghijklmnopqrstuvwxyz '.split(''),
+			matrixValues: 'abcdefghijklmnopqrstuvwxyz'.split(''),
 			charTime: getCharTime, // function (char, tPos)
 			spaceTime: getSpaceTime, // function (char, tPos)
 			isWhiteSpace: isWhiteSpace // function (char, tPos)
