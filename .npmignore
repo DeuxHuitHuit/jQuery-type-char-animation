@@ -1,3 +1,4 @@
 node_modules
-test
+tests
 grunt.js
+.travis.yml
