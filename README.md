@@ -14,7 +14,7 @@ See [this file](https://github.com/DeuxHuitHuit/jQuery-type-char-animation/blob/
 
 ### Usage
 
-[See below](#Options) for the complete documentation
+[See below](#options) for the complete documentation
 
 ````javascript
 // start the animation
