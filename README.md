@@ -37,6 +37,8 @@ $('#my-div').typeCharAnimation({
 $('#my-div').typeCharAnimation('stop');
 // stop and go to end
 $('#my-div').typeCharAnimation('stop', {end: true});
+// access (or change) the global defaults
+$.typeCharAnimation.defaults;
 ````
 
 ## Options
