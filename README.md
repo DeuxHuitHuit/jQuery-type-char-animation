@@ -25,6 +25,7 @@ $('#my-div').typeCharAnimation({
     step: null, // function (char, pos)
     complete: null, // function ()
     blockUserInput: false,
+    focus: true,
     reverse: false,
     matrixEffect: 0,
     passes: 1,
@@ -74,6 +75,11 @@ A callback function called once, at the end of the animation.
 > true | false
 
 Flag indicating if the plugin should prevent user input in this element while animating. Mostly usefull for editable elements.
+
+### focus: true
+> true | false
+
+Flag indicating if the plugin should focus the element after changing its value.
 
 ### reverse: false
 > true | false
