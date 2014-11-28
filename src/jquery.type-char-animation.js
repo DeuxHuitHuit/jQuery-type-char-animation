@@ -182,7 +182,7 @@
 			// increment pass count
 			pass++;
 			
-			// if numerber of passes is reached
+			// if number of passes is reached
 			if (pass >= options.passes) {
 				pass = 0;
 				// increment pointer
