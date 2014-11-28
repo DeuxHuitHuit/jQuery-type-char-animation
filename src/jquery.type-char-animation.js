@@ -197,7 +197,9 @@
 			}
 			
 			// focus the element
-			txtBox.focus();
+			if (options.focus) {
+				txtBox.focus();
+			}
 			
 			// If the animation is not complete
 			if (!strategy.isOver(dT, tPos)) {
@@ -226,7 +228,9 @@
 		}
 		
 		// focus
-		txtBox.focus();
+		if (options.focus) {
+			txtBox.focus();
+		}
 		
 		// type first char
 		setTimeout(typeChar, options.initialDelay);
@@ -250,6 +254,7 @@
 			step: null, // function (char, tPos)
 			complete: null, // function ()
 			blockUserInput: false,
+			focus: true,
 			reverse: false,
 			matrixEffect: 0,
 			passes: 1,
